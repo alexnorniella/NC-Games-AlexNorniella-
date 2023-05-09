@@ -10,7 +10,15 @@ const { Console } = require("console");
 beforeEach(() => seed(testData))
 afterAll(() => connection.end())
 
+describe('invalid endpoint', () => {
+    test('Get- Status: 404 - responds with an error message', () => {
+        return request(app).get("/api/banana").expect(404).then(({ body }) => {
+            expect(body.message).toBe("invalid end point")
+        })
 
+    });
+
+});
 describe('/api/categories', () => {
     test('GET-Status: 200 - responds with array of all categories ', () => {
         return request(app).get("/api/categories").expect(200).then(({ body }) => {
@@ -25,3 +33,4 @@ describe('/api/categories', () => {
     });
 
 });
+
