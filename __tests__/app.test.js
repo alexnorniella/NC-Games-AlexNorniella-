@@ -22,7 +22,7 @@ describe('invalid endpoint', () => {
 describe('/api/categories', () => {
     test('GET-Status: 200 - responds with array of all categories ', () => {
         return request(app).get("/api/categories").expect(200).then(({ body }) => {
-            //console.log(body.treasures);
+
             expect(typeof body.categories).toBe("object");
             body.categories.forEach((category) => {
                 expect(typeof category.slug).toBe('string');
@@ -75,7 +75,6 @@ describe('/api/reviews', () => {
     })
     test('GET-Status: 200 - responds with array of all reviews in descending order', () => {
         return request(app).get("/api/reviews").expect(200).then(({ body }) => {
-            console.log(body.reviews, 'body')
             expect(body.reviews).toBeSortedBy('created_at', {
                 descending: true,
 
@@ -88,7 +87,6 @@ describe('/api/reviews', () => {
 describe("/api/reviews/:review_id", () => {
     test('GET-Status: 200 - responds with a single review', () => {
         return request(app).get("/api/reviews/2").expect(200).then(({ body }) => {
-            //console.log(body.treasures);
             expect(body.review.review_id).toBe(2);
             expect(body.review.title).toBe('Jenga')
 
@@ -104,5 +102,59 @@ describe("/api/reviews/:review_id", () => {
 
 
 });
+
+describe('/api/reviews/:review_id/comments', () => {
+
+    test('GET- status:200- responds with an array of comments for the given review_id ', () => {
+        return request(app).get("/api/reviews/2/comments").expect(200).then(({ body }) => {
+            console.log(body.comments, 'body')
+            expect(Array.isArray(body.comments)).toBe(true)
+
+            body.comments.forEach((comment) => {
+                expect(comment.review_id).toBe(2);
+                expect(comment).toHaveProperty('author');
+                expect(typeof comment.author).toBe('string');
+            })
+
+        })
+
+
+    });
+
+    test('GET-Status: 200 - responds with array of all comments in descending order', () => {
+        return request(app).get("/api/reviews/2/comments").expect(200).then(({ body }) => {
+            expect(body.comments).toBeSortedBy('created_at', {
+                descending: true,
+
+            })
+
+        });
+    })
+    test('GET-Status: 200 - responds with an empty array when a review id is provided but there are not comments', () => {
+        return request(app).get("/api/reviews/1/comments").expect(200).then(({ body }) => {
+            expect(body.comments).toEqual([])
+        })
+
+    });
+    test('Get- Status: 404 valid but non-existent review ID ', () => {
+        return request(app).get("/api/reviews/1000/comments").expect(404).then(({ body }) => {
+            expect(body.message).toBe("not found")
+        })
+
+    });
+    test('"GET-status : 400 - invalid review ID  "', () => {
+        return request(app).get("/api/reviews/hi/comments").expect(400).then(({ body }) => {
+            expect(body.message).toBe("invalid ID")
+        })
+    });
+})
+
+
+
+
+
+
+
+
 
 
