@@ -37,6 +37,7 @@ describe('/api/reviews', () => {
     test('GET-Status: 200 - responds with array of all reviews ', () => {
         return request(app).get("/api/reviews").expect(200).then(({ body }) => {
 
+
             expect(Array.isArray(body.reviews)).toBe(true)
             body.reviews.forEach((review) => {
                 expect(review).toHaveProperty('title');
@@ -83,3 +84,25 @@ describe('/api/reviews', () => {
         });
     })
 })
+
+describe("/api/reviews/:review_id", () => {
+    test('GET-Status: 200 - responds with a single review', () => {
+        return request(app).get("/api/reviews/2").expect(200).then(({ body }) => {
+            //console.log(body.treasures);
+            expect(body.review.review_id).toBe(2);
+            expect(body.review.title).toBe('Jenga')
+
+
+        })
+    });
+    test('GET-Status:404 - responds with an error when a request is made for a review that doesnt exits', () => {
+        return request(app).get('/api/reviews/10000').expect(404).then(({ body }) => {
+            expect(body.message).toBe('not found')
+        })
+
+    });
+
+
+});
+
+
