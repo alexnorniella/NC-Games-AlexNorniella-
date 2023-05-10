@@ -73,7 +73,7 @@ DESC;
         [review_id]).then((review) => {
             return Promise.all([review.rows, exports.selectReview(review_id)])
         }).then(([rows, review]) => {
-            console.log(review)
+
 
             if (!review) {
                 return Promise.reject({ status: 404, message: 'not found' })
@@ -83,5 +83,15 @@ DESC;
         })
 
 
+
+}
+
+exports.addComment = (newComment, review_id) => {
+    //needs to be an author that exists for happy path
+    //need to handle if author doesnt exist
+    //need to handle when review_id doesnt exist
+    return db.query(`INSERT INTO comments(author, body, review_id) VALUES ($1, $2, $3) RETURNING *;`, [newComment.username, newComment.body, review_id]).then((result) => {
+        return result.rows[0]
+    })
 
 }

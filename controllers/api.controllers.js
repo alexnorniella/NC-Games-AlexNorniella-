@@ -1,5 +1,5 @@
 
-const { selectCategories, selectReview, selectAllReviews, selectReviewWithComments } = require('../models/categories.models')
+const { selectCategories, selectReview, selectAllReviews, selectReviewWithComments, addComment } = require('../models/categories.models')
 
 
 
@@ -36,12 +36,19 @@ exports.getReviewWithComments = (req, res, next) => {
     const { review_id } = req.params
 
     return selectReviewWithComments(review_id).then((comments) => {
-        console.log(comments)
         if (comments) {
             res.status(200).send({ comments: comments })
-
-
         }
+    }).catch(next)
+
+}
+
+exports.postComment = (req, res, next) => {
+    const newComment = req.body;
+    const { review_id } = req.params
+
+    return addComment(newComment, review_id).then((newComment) => {
+        return res.status(201).send({ newComment })
     }).catch(next)
 
 }

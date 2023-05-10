@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { getCategories, getAllReviews, getReview, getReviewWithComments } = require("./controllers/api.controllers")
+const { getCategories, getAllReviews, getReview, getReviewWithComments, postComment } = require("./controllers/api.controllers")
 
 app.use(express.json())
 
@@ -12,6 +12,7 @@ app.get("/api/reviews/:review_id", getReview)
 
 app.get("/api/reviews/:review_id/comments", getReviewWithComments)
 
+app.post("/api/reviews/:review_id/comments", postComment)
 
 app.all('*', (req, res) => {
     res.status(404).send({ message: "invalid end point" })
@@ -20,8 +21,18 @@ app.all('*', (req, res) => {
 
 
 app.use((error, req, res, next) => {
-    console.log(error, 'error')
-    res.status(error.status).send({ message: error.message })
+    //database errors have codes on...
+    if (error.code && error.code === '23503') {
+        return res.status(404).send({ message: 'not found' })
+    }
+    if (error.code && error.code === '23502') {
+        //handle when the user/author doesnt exist...
+        return res.status(400).send({ message: 'missing required information' })
+    }
+    if (error.status) {
+        return res.status(error.status).send({ message: error.message })
+    }
+    console.log('uncaught error', error)
 })
 
 module.exports = app
