@@ -1,4 +1,4 @@
-const { selectCategories } = require('../models/categories.models')
+const { selectCategories, selectAllReviews } = require('../models/categories.models')
 
 
 exports.getCategories = (req, res) => {
@@ -7,5 +7,12 @@ exports.getCategories = (req, res) => {
         res.status(200).send({ categories: categories })
 
     })
+
+}
+exports.getAllReviews = (req, res) => {
+    selectAllReviews().then((reviews) => {
+        res.status(200).send({ reviews: reviews })
+    })
+
 
 }
