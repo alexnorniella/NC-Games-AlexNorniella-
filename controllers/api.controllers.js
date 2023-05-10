@@ -1,4 +1,8 @@
+
+const { selectCategories, selectAllReviews } = require('../models/categories.models')
+
 const { selectCategories, selectReview } = require('../models/categories.models')
+
 
 
 exports.getCategories = (req, res) => {
@@ -9,6 +13,14 @@ exports.getCategories = (req, res) => {
     })
 
 }
+
+exports.getAllReviews = (req, res) => {
+    selectAllReviews().then((reviews) => {
+        res.status(200).send({ reviews: reviews })
+    })
+
+
+
 exports.getReview = (req, res, next) => {
     const { review_id } = req.params
     return selectReview(review_id).then((review) => {
@@ -18,5 +30,6 @@ exports.getReview = (req, res, next) => {
             return next({ status: 404, message: 'not found' })
         }
     })
+
 
 }
