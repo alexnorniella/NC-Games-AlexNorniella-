@@ -107,7 +107,7 @@ describe('/api/reviews/:review_id/comments', () => {
 
     test('GET- status:200- responds with an array of comments for the given review_id ', () => {
         return request(app).get("/api/reviews/2/comments").expect(200).then(({ body }) => {
-            console.log(body.comments, 'body')
+
             expect(Array.isArray(body.comments)).toBe(true)
 
             body.comments.forEach((comment) => {
@@ -147,6 +147,53 @@ describe('/api/reviews/:review_id/comments', () => {
             expect(body.message).toBe("invalid ID")
         })
     });
+})
+
+describe('/api/reviews/:review_id/comments', () => {
+    test('POST- status:201- responds with the added comment object', () => {
+        const newComment = { username: 'bainesface', body: 'this is the story about a pickle' }
+        return request(app).post('/api/reviews/1/comments').send(newComment).expect(201).then(({ body }) => {
+            expect(body.newComment).toBeInstanceOf(Object)
+            expect(body.newComment.author).toBe('bainesface')
+            expect(body.newComment.body).toBe('this is the story about a pickle')
+        })
+    })
+    test('POST- status:201- responds with the added comment object going to ignore additional properties', () => {
+        const newComment = { username: 'bainesface', body: 'this is the story about a pickle', magic: 'nc magic' }
+        return request(app).post('/api/reviews/1/comments').send(newComment).expect(201).then(({ body }) => {
+            expect(body.newComment).toBeInstanceOf(Object)
+            expect(body.newComment.author).toBe('bainesface')
+            expect(body.newComment.body).toBe('this is the story about a pickle')
+        })
+    })
+
+    test('POST- status:404- when passing a author that doesnt exist in db', () => {
+        const newComment = { username: 'pickle', body: 'this is the story about a pickle' }
+        return request(app).post('/api/reviews/1/comments').send(newComment).expect(404).then(({ body }) => {
+            expect(body.message).toBe('not found')
+        })
+    })
+
+    test('POST- status:404- when passing a review_id that doesnt exist in db', () => {
+        const newComment = { username: 'pickle', body: 'this is the story about a pickle' }
+        return request(app).post('/api/reviews/1000/comments').send(newComment).expect(404).then(({ body }) => {
+            expect(body.message).toBe('not found')
+        })
+    })
+
+    test('POST- status:400- when passing a incorrect body', () => {
+        const newComment = { username: 'bainesface' }
+        return request(app).post('/api/reviews/1/comments').send(newComment).expect(400).then(({ body }) => {
+            expect(body.message).toBe('missing required information')
+        })
+    })
+
+    test('POST- status:400- when passing a incorrect review_id', () => {
+        const newComment = { username: 'bainesface' }
+        return request(app).post("/api/reviews/hi/comments").expect(400).then(({ body }) => {
+            expect(body.message).toBe("invalid ID")
+        })
+    })
 })
 
 
