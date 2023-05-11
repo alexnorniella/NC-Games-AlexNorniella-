@@ -1,5 +1,4 @@
-
-const { selectCategories, selectReview, selectAllReviews, selectReviewWithComments, addComment } = require('../models/categories.models')
+const { selectCategories, selectReview, selectAllReviews, selectReviewWithComments, addComment, updateReviewVotes } = require('../models/categories.models')
 
 
 
@@ -62,3 +61,16 @@ exports.postComment = (req, res, next) => {
     })
 
 }
+
+exports.patchReview = (req, res, next) => {
+    const { review_id } = req.params;
+    const { inc_votes } = req.body;
+
+    return updateReviewVotes(review_id, inc_votes)
+        .then((updatedReview) => {
+            res.status(200).send({ updatedReview });
+        })
+        .catch((err) => {
+            next(err)
+        });
+};
