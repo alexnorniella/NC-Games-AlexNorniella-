@@ -87,6 +87,9 @@ DESC;
 }
 
 exports.addComment = (newComment, review_id) => {
+    if (!Number.isInteger(parseInt(review_id))) {
+        return Promise.reject({ status: 400, message: "invalid ID" });
+    }
     //needs to be an author that exists for happy path
     //need to handle if author doesnt exist
     //need to handle when review_id doesnt exist

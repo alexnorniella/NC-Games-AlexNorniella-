@@ -8,6 +8,8 @@ exports.getCategories = (req, res) => {
     return selectCategories().then((categories) => {
         res.status(200).send({ categories: categories })
 
+    }).catch((err) => {
+        next(err)
     })
 
 }
@@ -15,6 +17,8 @@ exports.getCategories = (req, res) => {
 exports.getAllReviews = (req, res) => {
     selectAllReviews().then((reviews) => {
         res.status(200).send({ reviews: reviews })
+    }).catch((err) => {
+        next(err)
     })
 }
 
@@ -27,6 +31,8 @@ exports.getReview = (req, res, next) => {
         } else {
             return next({ status: 404, message: 'not found' })
         }
+    }).catch((err) => {
+        next(err)
     })
 
 
@@ -39,7 +45,9 @@ exports.getReviewWithComments = (req, res, next) => {
         if (comments) {
             res.status(200).send({ comments: comments })
         }
-    }).catch(next)
+    }).catch((err) => {
+        next(err)
+    })
 
 }
 
@@ -49,6 +57,8 @@ exports.postComment = (req, res, next) => {
 
     return addComment(newComment, review_id).then((newComment) => {
         return res.status(201).send({ newComment })
-    }).catch(next)
+    }).catch((err) => {
+        next(err)
+    })
 
 }
