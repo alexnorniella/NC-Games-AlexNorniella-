@@ -267,6 +267,49 @@ describe('/api/reviews/:review_id', () => {
 
 });
 
+describe('/api/comments/:comment_id', () => {
+
+    test('DELETE- status:204 - deletes the comment with the given comment_id', () => {
+        return request(app)
+            .delete('/api/comments/6')
+            .expect(204)
+            .then(() => {
+                return request(app)
+                    .get('/api/comments/6')
+                    .expect(404)
+                    .then(({ body }) => {
+                        expect(body.message).toBe("invalid end point");//as it was deleted
+                    });
+            });
+    });
+
+    test('DELETE - status:404 - when passing a comment_id that doesnt exist in db', () => {
+        return request(app)
+            .delete('/api/comments/1000')
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.message).toBe('Comment not found');
+            });
+    });
+
+    test('DELETE - status:400 - when passing an incorrect comment_id', () => {
+        return request(app)
+            .delete('/api/comments/banana')
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.message).toBe('invalid ID');
+            });
+    });
+});
+
+
+
+
+
+
+
+
+
 
 
 
