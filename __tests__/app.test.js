@@ -196,6 +196,76 @@ describe('/api/reviews/:review_id/comments', () => {
     })
 })
 
+describe('/api/reviews/:review_id', () => {
+
+    test('PATCH - status:200 - responds with the updated review object', () => {
+        const newVote = { inc_votes: 1 };
+        return request(app)
+            .patch('/api/reviews/3')
+            .send(newVote)
+            .expect(200)
+            .then(({ body }) => {
+                expect(body.updatedReview).toBeInstanceOf(Object);
+                expect(body.updatedReview.votes).toBe(6); // Assuming the original review had 5 votes
+            });
+    });
+
+    test('PATCH - status:200 - decrements the review votes by 100', () => {
+        const newVote = { inc_votes: -100 };
+        return request(app)
+            .patch('/api/reviews/12')
+            .send(newVote)
+            .expect(200)
+            .then(({ body }) => {
+                expect(body.updatedReview).toBeInstanceOf(Object);
+                expect(body.updatedReview.votes).toBe(0); // Assuming the original review had 100 votes
+            });
+    });
+
+    test('PATCH - status:404 - when passing a review_id that doesnt exist in db', () => {
+        const newVote = { inc_votes: 1 };
+        return request(app)
+            .patch('/api/reviews/1000')
+            .send(newVote)
+            .expect(404)
+            .then(({ body }) => {
+                expect(body.message).toBe('Review not found');
+            });
+    });
+
+    test('PATCH - status:400 - when passing an incorrect review_id', () => {
+        const newVote = { inc_votes: 1 };
+        return request(app)
+            .patch('/api/reviews/banana')
+            .send(newVote)
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.message).toBe('invalid ID');
+            });
+    });
+    test('PATCH - status:400 - when passing an incorrect body', () => {
+        const newVote = { banana: 1 };
+        return request(app)
+            .patch('/api/reviews/3')
+            .send(newVote)
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.message).toBe('missing required information');
+            });
+    });
+    test('PATCH - status:400 - when passing an incorrect body, example   when inc_votes property is not a number', () => {
+        const newVote = { inc_votes: " banana" };
+        return request(app)
+            .patch('/api/reviews/3')
+            .send(newVote)
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.message).toBe('data in incorrect format');
+            });
+    });
+
+
+});
 
 
 
