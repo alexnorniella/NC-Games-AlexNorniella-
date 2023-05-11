@@ -1,18 +1,20 @@
 \c nc_games_test;
---  SELECT 
---     comments.comment_id,
---     comments.votes,
---     comments.created_at,
---     comments.author,
---     comments.body,
---     comments.review_id
--- FROM 
---     comments
--- WHERE 
--- review_id = 2
--- ORDER BY
---     comments.created_at
--- DESC;
+
+
+ SELECT 
+    comments.comment_id,
+    comments.votes,
+    comments.created_at,
+    comments.author,
+    comments.body,
+    comments.review_id
+FROM 
+    comments
+WHERE 
+review_id = 2
+ORDER BY
+    comments.created_at
+DESC;
 
 -- SELECT 
 --     reviews.review_id, 
@@ -46,5 +48,7 @@
 -- FROM 
 --     comments;
 
+
 SELECT * FROM USERS
+
 

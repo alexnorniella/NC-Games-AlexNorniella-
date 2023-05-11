@@ -1,4 +1,5 @@
-const { selectCategories, selectReview, selectAllReviews, selectReviewWithComments, addComment, updateReviewVotes,selectAllUsers } = require('../models/categories.models')
+const { selectCategories, selectReview, selectAllReviews, selectReviewWithComments, addComment, updateReviewVotes, removeComment, selectAllUsers } = require('../models/categories.models')
+
 
 
 
@@ -82,3 +83,15 @@ exports.getAllUsers = (req, res) => {
         next(err)
     })
 }
+
+exports.deleteComment = (req, res, next) => {
+    const { comment_id } = req.params;
+    return removeComment(comment_id)
+        .then(() => {
+            res.sendStatus(204);
+        })
+        .catch((err) => {
+            next(err);
+        });
+};
+
