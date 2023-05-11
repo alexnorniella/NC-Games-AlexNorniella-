@@ -32,6 +32,10 @@ app.use((error, req, res, next) => {
         //handle when the user/author doesnt exist...
         return res.status(400).send({ message: 'missing required information' })
     }
+    if (error.code && error.code === '22P02') {
+        //handle when the user/author doesnt exist...
+        return res.status(400).send({ message: 'data in incorrect format' })
+    }
     if (error.status) {
         return res.status(error.status).send({ message: error.message })
     }

@@ -104,6 +104,7 @@ exports.updateReviewVotes = (review_id, inc_votes) => {
     if (!Number.isInteger(parseInt(review_id))) {
         return Promise.reject({ status: 400, message: "invalid ID" });
     }
+    
     return db
         .query(
             `

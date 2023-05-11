@@ -253,6 +253,18 @@ describe('/api/reviews/:review_id', () => {
                 expect(body.message).toBe('missing required information');
             });
     });
+    test('PATCH - status:400 - when passing an incorrect body, example   when inc_votes property is not a number', () => {
+        const newVote = { inc_votes: " banana" };
+        return request(app)
+            .patch('/api/reviews/3')
+            .send(newVote)
+            .expect(400)
+            .then(({ body }) => {
+                expect(body.message).toBe('data in incorrect format');
+            });
+    });
+
+
 });
 
 
