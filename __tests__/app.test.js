@@ -267,7 +267,27 @@ describe('/api/reviews/:review_id', () => {
 
 });
 
+describe('/api/users', () => {
+    test('GET-Status: 200 - responds with array of all users ', () => {
+        return request(app).get("/api/users").expect(200).then(({ body }) => {
 
+
+            expect(Array.isArray(body.users)).toBe(true)
+            body.users.forEach((user) => {
+                expect(user).toHaveProperty('username');
+                expect(typeof user.username).toBe('string');
+
+                expect(user).toHaveProperty('name');
+                expect(typeof user.name).toBe('string');
+
+                expect(user).toHaveProperty('avatar_url');
+                expect(typeof user.avatar_url).toBe('string');
+
+            })
+        })
+    });
+
+})
 
 
 

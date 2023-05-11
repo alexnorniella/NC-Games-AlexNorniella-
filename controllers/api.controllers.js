@@ -1,4 +1,4 @@
-const { selectCategories, selectReview, selectAllReviews, selectReviewWithComments, addComment, updateReviewVotes } = require('../models/categories.models')
+const { selectCategories, selectReview, selectAllReviews, selectReviewWithComments, addComment, updateReviewVotes,selectAllUsers } = require('../models/categories.models')
 
 
 
@@ -74,3 +74,11 @@ exports.patchReview = (req, res, next) => {
             next(err)
         });
 };
+
+exports.getAllUsers = (req, res) => {
+    selectAllUsers().then((users) => {
+        res.status(200).send({ users: users })
+    }).catch((err) => {
+        next(err)
+    })
+}

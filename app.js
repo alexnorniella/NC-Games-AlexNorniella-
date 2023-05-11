@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const { getCategories, getAllReviews, getReview, getReviewWithComments, postComment, patchReview } = require("./controllers/api.controllers")
+const { getCategories, getAllReviews, getReview, getReviewWithComments, postComment, patchReview,getAllUsers } = require("./controllers/api.controllers")
 
 app.use(express.json())
 
@@ -16,6 +16,9 @@ app.post("/api/reviews/:review_id/comments", postComment)
 
 
 app.patch('/api/reviews/:review_id', patchReview)
+
+app.get('/api/users', getAllUsers)
+
 
 app.all('*', (req, res) => {
     res.status(404).send({ message: "invalid end point" })

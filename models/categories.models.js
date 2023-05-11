@@ -104,7 +104,7 @@ exports.updateReviewVotes = (review_id, inc_votes) => {
     if (!Number.isInteger(parseInt(review_id))) {
         return Promise.reject({ status: 400, message: "invalid ID" });
     }
-    
+
     return db
         .query(
             `
@@ -122,3 +122,11 @@ exports.updateReviewVotes = (review_id, inc_votes) => {
             return result.rows[0];
         });
 };
+
+exports.selectAllUsers = () => {
+    return db.query(`SELECT * FROM users;
+    `).then((result) => {
+
+        return result.rows;
+    })
+}
