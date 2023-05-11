@@ -123,6 +123,15 @@ exports.updateReviewVotes = (review_id, inc_votes) => {
         });
 };
 
+
+exports.selectAllUsers = () => {
+    return db.query(`SELECT * FROM users;
+    `).then((result) => {
+
+        return result.rows;
+    })
+}
+
 exports.removeComment = (comment_id) => {
     if (!Number.isInteger(parseInt(comment_id))) {
         return Promise.reject({ status: 400, message: "invalid ID" });

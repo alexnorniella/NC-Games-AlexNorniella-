@@ -1,4 +1,5 @@
-const { selectCategories, selectReview, selectAllReviews, selectReviewWithComments, addComment, updateReviewVotes, removeComment } = require('../models/categories.models')
+const { selectCategories, selectReview, selectAllReviews, selectReviewWithComments, addComment, updateReviewVotes, removeComment, selectAllUsers } = require('../models/categories.models')
+
 
 
 
@@ -75,6 +76,14 @@ exports.patchReview = (req, res, next) => {
         });
 };
 
+exports.getAllUsers = (req, res) => {
+    selectAllUsers().then((users) => {
+        res.status(200).send({ users: users })
+    }).catch((err) => {
+        next(err)
+    })
+}
+
 exports.deleteComment = (req, res, next) => {
     const { comment_id } = req.params;
     return removeComment(comment_id)
@@ -85,3 +94,4 @@ exports.deleteComment = (req, res, next) => {
             next(err);
         });
 };
+

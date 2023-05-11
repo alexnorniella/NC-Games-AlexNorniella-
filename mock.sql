@@ -1,4 +1,6 @@
 \c nc_games_test;
+
+
  SELECT 
     comments.comment_id,
     comments.votes,
@@ -45,5 +47,8 @@ DESC;
 --     *
 -- FROM 
 --     comments;
+
+
+SELECT * FROM USERS
 
 
