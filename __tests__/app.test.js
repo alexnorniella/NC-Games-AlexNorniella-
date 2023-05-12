@@ -327,6 +327,24 @@ describe('/api/users', () => {
 
 })
 
+// describe('/api/reviews', () => {
+//     test('GET-Status: 200 - responds with array of all users ', () => {
+//         return request(app).get("/api/reviews").expect(200).then(({ body }) => {
+
+
+//             expect(Array.isArray(body.users)).toBe(true)
+//             expect(body.reviews.length).toBeGreaterThan(0);
+
+//         })
+//     })
+//     test('GET-status: 200 can be sort by valid colum specified to query', () => {
+//         return request(app).get("/api/reviews?sort_by=").expect(200).then(({ body }) => {
+
+
+//         })
+//     });
+// });
+
 
 
 
