@@ -31,5 +31,201 @@
         }
       ]
     }
-  }
+  },
+  "GET/api/reviews/:review_id": {
+
+    "description":"This endpoint responds with a review object that matches the provided review_id. The review object will have the following properties",
+
+    "queries": ["review_id"],
+    "exampleResponse": {
+      "review": [
+        {
+          "review_id": 2,
+          "title": "JengARRGGGH!",
+          "category": "dexterity",
+          "designer": "Leslie Scott",
+          "owner": "grumpy19",
+          "review_body": "Few games are equiped to fill a player with such a defined sense of mild-peril, but a friendly game of Jenga will turn the mustn't-make-it-fall anxiety all the way up to 11! Fiddly fun for all the family, this game needs little explaination. Whether you're a player who chooses to play it safe, or one who lives life on the edge, eventually the removal of blocks will destabilise the tower and all your Jenga dreams come tumbling down.",
+          "review_img_url": "https://images.pexels.com/photos/4473494/pexels-photo-4473494.jpeg?w=700&h=700",
+          "created_at": "2021-01-18T10:01:41.251Z",
+          "votes": 5
+        }
+      ]
+    }
+  },
+
+  "GET/api/reviews": {
+
+    "description":"This endpoint responds with an array of review objects, each containing the following properties on the exampleResponse",
+
+    "queries": ["sort_by","order","limit"],
+    "exampleResponse": {
+      "review": [
+        {
+          "review_id": 16,
+          "title": "Ticket To Ride",
+          "review_img_url": "https://images.pexels.com/photos/4691567/pexels-photo-4691567.jpeg?w=700&h=700",
+          "designer": "Alan R. Moon",
+          "category": "deck-building",
+          "owner": "weegembump",
+          "votes": 1,
+          "comment_count": 7,
+          "created_at": "2021-01-22T11:05:05.936Z"
+          },
+          {
+          "review_id": 8,
+          "title": "Scythe; you're gonna need a bigger table!",
+          "review_img_url": "https://images.pexels.com/photos/4200740/pexels-photo-4200740.jpeg?w=700&h=700",
+          "designer": "Jamey Stegmaier",
+          "category": "engine-building",
+          "owner": "grumpy19",
+          "votes": 100,
+          "comment_count": 1,
+          "created_at": "2021-01-22T10:37:04.839Z"
+          }
+      ]
+    }
+  },
+
+  "GET  /api/reviews/:review_id/comments": {
+
+    "description":"an array of comments for the given review_id of which each comment",
+
+    "queries": ["sort_by","order","limit"],
+    "exampleResponse": {
+      "comments": [
+        {
+        "comment_id": 19,
+        "votes": 3,
+        "created_at": "2021-03-27T19:48:58.110Z",
+        "author": "jessjelly",
+        "body": "Quis duis mollit ad enim deserunt.",
+        "review_id": 3
+        },
+        {
+        "comment_id": 20,
+        "votes": 17,
+        "created_at": "2021-03-27T14:15:38.110Z",
+        "author": "cooljmessy",
+        "body": "Laboris nostrud ea ex occaecat aute quis consectetur anim.",
+        "review_id": 3
+        },
+        {
+        "comment_id": 21,
+        "votes": 1,
+        "created_at": "2021-03-27T14:15:36.110Z",
+        "author": "weegembump",
+        "body": "Consequat nisi dolor nulla esse sunt eu ipsum laborum deserunt duis.",
+        "review_id": 3
+        },
+        {
+        "comment_id": 22,
+        "votes": 9,
+        "created_at": "2021-03-27T14:15:31.110Z",
+        "author": "jessjelly",
+        "body": "Ex id ipsum dolore non cillum anim sint duis nisi anim deserunt nisi minim.",
+        "review_id": 3
+        },
+        {
+        "comment_id": 23,
+        "votes": 10,
+        "created_at": "2021-03-27T14:15:21.110Z",
+        "author": "happyamy2016",
+        "body": "Commodo aliquip sunt commodo elit in esse velit laborum cupidatat anim.",
+        "review_id": 3
+        }
+        ]
+      }
+    },
+
+    "POST /api/reviews/:review_id/comments": {
+
+      "description":"This endpoint allows you to create a new comment for the given review_id. The request body should include an object with the following properties- username: The username of the commenter. body: The content of the comment.",
+      "newComment":{ "username": "bainesface", "body": "this is the story about a pickle" },
+      "queries": ["sort_by","order","limit"],
+      "exampleResponse": {
+        "newComment": [
+          
+             {
+              "comment_id": 7,
+              "body": "this is the story about a pickle",
+              "review_id": 1,
+              "author": "bainesface",
+              "votes": 0,
+              "created_at": "2023-05-23T15:36:44.465Z"
+            }
+          
+        
+          ]
+        }
+      },
+
+      "PATCH /api/reviews/:review_id": {
+
+        "description":"This endpoint allows you to update a specific review identified by the review_id. The request body should include an object with the following properties- inc_votes: Indicates the amount by which the votes property in the review should be updated. Positive values will increment the votes, while negative values will decrement the votes."
+
+        },
+        "POST/api/reviews/:review_id/comments": "Will provide functionality to add a comment to a review when providing review_id",
+
+        "DELETE /api/comments/:comment_id": "Will provide functionality to remove a comment from the table with a provided comment_id",
+
+        "GET /api/users": {
+          "description": "serves an array of usernames from the users table",
+          "queries": [],
+          "exampleResponse": {
+            "users": [
+              {
+              "username": "tickle122",
+              "name": "Tom Tickle",
+              "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/d/d6/Mr-Tickle-9a.png/revision/latest?cb=20180127221953"
+              },
+              {
+              "username": "grumpy19",
+              "name": "Paul Grump",
+              "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/7/78/Mr-Grumpy-3A.PNG/revision/latest?cb=20170707233013"
+              },
+              {
+              "username": "happyamy2016",
+              "name": "Amy Happy",
+              "avatar_url": "https://vignette1.wikia.nocookie.net/mrmen/images/7/7f/Mr_Happy.jpg/revision/latest?cb=20140102171729"
+              },
+              {
+              "username": "cooljmessy",
+              "name": "Peter Messy",
+              "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/1/1a/MR_MESSY_4A.jpg/revision/latest/scale-to-width-down/250?cb=20170730171002"
+              },
+              {
+              "username": "weegembump",
+              "name": "Gemma Bump",
+              "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/7/7e/MrMen-Bump.png/revision/latest?cb=20180123225553"
+              },
+              {
+              "username": "jessjelly",
+              "name": "Jess Jelly",
+              "avatar_url": "https://vignette.wikia.nocookie.net/mrmen/images/4/4f/MR_JELLY_4A.jpg/revision/latest?cb=20180104121141"
+              }
+              ]
+        },
+        "GET  /api/reviews": {
+          "description": "serves an array of all reviews",
+          "queries": ["category", "sort_by", "order"],
+          "exampleResponse": {
+            "reviews": [
+              {
+                "review_id": 13,
+                "title": "Kerplunk; Don't lose your marbles",
+                "review_img_url": "https://images.pexels.com/photos/411207/pexels-photo-411207.jpeg?w=700&h=700",
+                "designer": "Avery Wunzboogerz",
+                "category": "dexterity",
+                "owner": "tickle122",
+                "votes": 9,
+                "comment_count": 3,
+                "created_at": "2021-01-25T11:16:54.963Z"
+                }
+            ]
+          }
+        }
+
+  
+}
 }

@@ -49,6 +49,6 @@
 --     comments;
 
 
-SELECT * FROM reviews 
+SELECT * FROM reviews WHERE review_id = 2; 
 
 

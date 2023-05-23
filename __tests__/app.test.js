@@ -161,6 +161,7 @@ describe('/api/reviews/:review_id/comments', () => {
     test('POST- status:201- responds with the added comment object going to ignore additional properties', () => {
         const newComment = { username: 'bainesface', body: 'this is the story about a pickle', magic: 'nc magic' }
         return request(app).post('/api/reviews/1/comments').send(newComment).expect(201).then(({ body }) => {
+            console.log(body,'body')
             expect(body.newComment).toBeInstanceOf(Object)
             expect(body.newComment.author).toBe('bainesface')
             expect(body.newComment.body).toBe('this is the story about a pickle')
