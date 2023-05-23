@@ -5,7 +5,7 @@ const { getCategories, getAllReviews, getReview, getReviewWithComments, postComm
 
 app.use(express.json())
 
-app.get('api', getAPI)
+app.get('/api', getAPI)
 
 app.get('/api/categories', getCategories)
 
