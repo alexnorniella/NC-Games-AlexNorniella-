@@ -161,6 +161,7 @@ describe('/api/reviews/:review_id/comments', () => {
     test('POST- status:201- responds with the added comment object going to ignore additional properties', () => {
         const newComment = { username: 'bainesface', body: 'this is the story about a pickle', magic: 'nc magic' }
         return request(app).post('/api/reviews/1/comments').send(newComment).expect(201).then(({ body }) => {
+            console.log(body,'body')
             expect(body.newComment).toBeInstanceOf(Object)
             expect(body.newComment.author).toBe('bainesface')
             expect(body.newComment.body).toBe('this is the story about a pickle')
@@ -326,6 +327,61 @@ describe('/api/users', () => {
     });
 
 })
+
+describe('/api/reviews', () => {
+    test('GET-Status: 200 - responds with array of all users ', () => {
+        return request(app).get("/api/reviews").expect(200).then(({ body }) => {
+
+
+            expect(Array.isArray(body.reviews)).toBe(true)
+            expect(body.reviews.length).toBeGreaterThan(0);
+
+        })
+    })
+    test('GET-status: 200 order by descending by default', () => {
+        return request(app).get("/api/reviews").expect(200).then(({ body }) => {
+            expect(body.reviews).toBeSortedBy("created_at", {
+                descending: true
+            })
+
+        })
+    });
+    test('GET-status: 200 order by ascending if passed on query', () => {
+        return request(app).get("/api/reviews?order=asc").expect(200).then(({ body }) => {
+            expect(body.reviews).toBeSortedBy("created_at", {
+                ascending: true
+            })
+
+        })
+    });
+    test('GET-status: 200 order by descending if passed on query', () => {
+        return request(app).get("/api/reviews?order=desc").expect(200).then(({ body }) => {
+            expect(body.reviews).toBeSortedBy("created_at", {
+                descending: true
+            })
+
+        })
+    });
+
+    test('GET-status: 200 can be sort by valid colum specified to query', () => {
+        return request(app).get("/api/reviews?sort_by=votes").expect(200).then(({ body }) => {
+            expect(body.reviews).toBeSortedBy("votes", {
+                descending: true
+            })
+
+
+        })
+    });
+
+    test('GET-status:400 invalid sort criteria', () => {
+        return request(app).get("/api/reviews?sort_by=bananas").expect(400).then(({ body }) => {
+            expect(body.message).toBe("invalid sort query")
+
+        })
+    });
+
+
+});
 
 
 

@@ -1,4 +1,5 @@
-const db = require("../db/connection")
+const db = require("../db/connection");
+
 
 
 exports.selectCategories = () => {
@@ -10,7 +11,14 @@ exports.selectCategories = () => {
     })
 }
 
-exports.selectAllReviews = () => {
+exports.selectAllReviews = (sort_by = "created_at", order = "DESC") => {
+    console.log(sort_by, order)
+    const validSortQueries = ["review_id", "title", "designer", "category", "owner", "votes", "created_at"];
+    const validOrder = ["DESC", "ASC", "desc", "asc"]
+    if (!validSortQueries.includes(sort_by) || !validOrder.includes(order)) {
+        return Promise.reject({ status: 400, message: "invalid sort query" })
+    }
+
     return db.query(`SELECT 
 reviews.review_id, 
 reviews.title,
@@ -31,9 +39,8 @@ comments.review_id = reviews.review_id
 GROUP BY
 comments.review_id, reviews.review_id
 ORDER BY
-reviews.created_at
-DESC;`).then((result) => {
-
+reviews.${sort_by} ${order}`).then((result) => {
+        console.log(result.rows)
         return result.rows;
     })
 

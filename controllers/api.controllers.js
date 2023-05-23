@@ -1,7 +1,11 @@
+
 const { selectCategories, selectReview, selectAllReviews, selectReviewWithComments, addComment, updateReviewVotes, removeComment, selectAllUsers } = require('../models/categories.models')
 
+const endpoints = require('../endpoints.json')
 
-
+exports.getAPI= (req,res,nex)=>{
+    res.status(200).send(endpoints)
+}
 
 exports.getCategories = (req, res) => {
 
@@ -14,8 +18,10 @@ exports.getCategories = (req, res) => {
 
 }
 
-exports.getAllReviews = (req, res) => {
-    selectAllReviews().then((reviews) => {
+exports.getAllReviews = (req, res, next) => {
+    const { sort_by, order } = req.query
+    // console.log(sort_by, order)
+    selectAllReviews(sort_by, order).then((reviews) => {
         res.status(200).send({ reviews: reviews })
     }).catch((err) => {
         next(err)
