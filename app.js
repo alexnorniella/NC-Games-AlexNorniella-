@@ -1,8 +1,10 @@
 const express = require('express')
+const cors = require('cors');
 const app = express()
 
 const { getCategories, getAllReviews, getReview, getReviewWithComments, postComment, patchReview,deleteComment,getAllUsers, getAPI } = require("./controllers/api.controllers")
 
+app.use(cors()); // Add cors middleware
 app.use(express.json())
 
 app.get('/api', getAPI)
